@@ -15,6 +15,7 @@ public interface NbaService {
 
     List<DataElement> getAllNBATeams();
 
+    DataElement getIdTeam(Long idTeam);
 
     DataElement AddCommnentsGame(Map<String,String> commentGames, Long idTeam);
 

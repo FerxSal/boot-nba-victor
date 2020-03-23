@@ -20,8 +20,13 @@ public class NbaController {
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(NbaController.class);
 
+
+    private NbaServices nbaService;
+
     @Autowired
-    NbaServices nbaService;
+    public NbaController(NbaServices nbaService) {
+        this.nbaService = nbaService;
+    }
 
 
     @GetMapping(path = "")
@@ -34,7 +39,7 @@ public class NbaController {
     }
 
     @GetMapping(path = "/geteam/{season}/{page}/{team_ids}/{per_page}/{date}")
-    public ResponseEntity<List<DataElement>> getTeamByDate(@PathVariable String season,@PathVariable String page,@PathVariable String team_ids,@PathVariable String per_page,@PathVariable String date){
+    public ResponseEntity<List<DataElement>> getMathesByDate(@PathVariable String season,@PathVariable String page,@PathVariable String team_ids,@PathVariable String per_page,@PathVariable String date){
 
         LOGGER.info("NbaController: getTeamByDate ");
         List<DataElement> teamsByDate = nbaService.getAllNBAMatchesByDate(season,page,team_ids, per_page,date);
@@ -44,7 +49,7 @@ public class NbaController {
 
 
     @GetMapping(path = "/{idTeam}")
-    public ResponseEntity<DataElement> getIdTeam(@PathVariable int idTeam){
+    public ResponseEntity<DataElement> getIdTeam(@PathVariable Long idTeam){
 
         LOGGER.info("NbaController: getIdTeam");
         DataElement getTeam = nbaService.getIdTeam(idTeam);

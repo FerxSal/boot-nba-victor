@@ -34,7 +34,7 @@ public class SpringBootJdbcApplication {
 
 		nbaService.getAllNBATeams();
 
-		DataElement delm = nbaService.getIdTeam(47179);
+		DataElement delm = nbaService.getIdTeam(47179L);
 
 		System.out.println(delm.toString());
 

@@ -36,14 +36,20 @@ public class NbaServices implements NbaService{
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(NbaServices.class);
 
-    @Autowired
+    @Value("${nba.endpoint}")
+    public String ROOT_URL;
+
+
     RestTemplate restTemplate;
 
-    @Autowired
     private MatchRepository matchRepository;
 
-    @Value("${nba.endpoint}")
-    private String ROOT_URL;
+    @Autowired
+    public NbaServices(RestTemplate restTemplate, MatchRepository matchRepository) {
+        this.restTemplate = restTemplate;
+        this.matchRepository = matchRepository;
+    }
+
 
     @Cacheable("nba")
     public List<DataElement> getAllNBAMatchesByDate(String Seasons,String page,String team_ids,String per_page,String date){
@@ -86,13 +92,12 @@ public class NbaServices implements NbaService{
                 ROOT_URL , HttpMethod.GET, new HttpEntity<Data>(null,createHttpHeaders()) ,Data.class);
 
         Data response = responseEntity.getBody();
-        System.out.println(response.getData().size());
 
         return response.getData();
 
     }
 
-    public DataElement getIdTeam(int idTeam){
+    public DataElement getIdTeam(Long idTeam){
 
         LOGGER.info("NbaServices: getIdTeam");
         ResponseEntity<DataElement> responseEntity = restTemplate.exchange(
